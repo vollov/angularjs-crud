@@ -1,0 +1,43 @@
+<div class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content" name="userForm">
+			<div class="modal-header">
+				<h4 ng-hide='isNew' class="modal-title">Eidt User: {{user.firstname}}</h4>
+				<h4 ng-hide='isNew' class="modal-title">New User</h4>
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+					<div class="modal-body">	
+						<div class="form-group">
+							<label for="inputFirstName" class="col-lg-2 control-label">First Name</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="inputFirstName"
+									placeholder="First Name" ng-model="user.firstname" required>
+							</div>
+						</div>
+			
+						<div class="form-group">
+							<label for="inputLastName" class="col-lg-2 control-label">Last Name</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="inputLastName"
+									placeholder="Last Name" ng-model="user.lastname" required>
+							</div>
+						</div>
+			
+						<div class="form-group">
+							<label for="inputAge" class="col-lg-2 control-label">Age</label>
+							<div class="col-lg-10">
+								<input type="number" class="form-control" id="inputAge"
+									placeholder="Age" ng-model="user.age" required>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+

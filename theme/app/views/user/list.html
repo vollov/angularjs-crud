@@ -1,0 +1,77 @@
+<script type="text/ng-template" id="detail.html">
+<div class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 ng-hide='isNew' class="modal-title">Eidt User: {{user.firstname}}</h4>
+				<h4 ng-hide='isNew' class="modal-title">New User</h4>
+			</div>
+			
+					<div class="modal-body">	
+						<div class="form-group">
+							<label for="inputFirstName" class="col-lg-2 control-label">First Name</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="inputFirstName"
+									placeholder="First Name" ng-model="user.firstname" required>
+							</div>
+						</div>
+			
+						<div class="form-group">
+							<label for="inputLastName" class="col-lg-2 control-label">Last Name</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="inputLastName"
+									placeholder="Last Name" ng-model="user.lastname" required>
+							</div>
+						</div>
+			
+						<div class="form-group">
+							<label for="inputAge" class="col-lg-2 control-label">Age</label>
+							<div class="col-lg-10">
+								<input type="number" class="form-control" id="inputAge"
+									placeholder="Age" ng-model="user.age" required>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
+					</div>
+				
+			
+		</div>
+	</div>
+</div>
+</script>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">Users</h3>
+	</div>
+	<div class="panel-body">
+			
+		<div>
+			<table class="table table-condensed table-bordered table-hover table-striped">
+				<thead>
+					<tr>
+						<th> id </th>
+						<th>first name</th>
+						<th>last name</th>
+						<th>age</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-class-even="'even'" ng-repeat="user in users">
+						<td>{{$index + 1}}</td>
+						<td>{{user.firstname}}</td>
+						<td>{{user.lastname}}</td>
+						<td>{{user.age}}</td>
+						<td><button role='button' class='btn' ng-click="editUser(user)">Edit</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+	
+</div>
+<div class='panel-body' ng-show="selected">Selection from a modal: {{ selected }}</div>
