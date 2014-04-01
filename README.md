@@ -1,5 +1,9 @@
 #angularjs-crud
 
+##What this projects do.
+1. have a setting service to load the paging settings for the app.
+2. share the list and edit via a Pet service.
+
 
 ##how to do angular CRUD 
 1. http://draptik.github.io/blog/2013/07/28/restful-crud-with-angularjs/
