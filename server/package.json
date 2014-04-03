@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"start": "supervisor acl.demo.server.js"
+		"start": "supervisor server.3000.js"
 	},
 	"dependencies": {
 		"express": "3.0.0",

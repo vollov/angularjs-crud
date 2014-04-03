@@ -1,0 +1,34 @@
+<div ng-app="myModule" class="wrapper">
+    <h2>AngularJS Initialization Demo</h2>
+    <p>For details see <a href="http://wp.me/p1E7sK-hn" target="_blank">article</a>
+    <div ng-controller="simpleController" class="left">
+        <h3>basic example</h3>
+        <p ng-show="options.length == 0">loading options...</p>
+        <select ng-show="options.length !== 0"
+        ng-model="selectedOption"
+        ng-options="option.value as option.name for option in options">
+        </select>
+        
+        <div class="log">
+            log:
+            <ul>
+                <li ng-repeat="entry in logentries">{{entry}}</li>
+            </ul>
+        </div>
+    </div>
+    <div ng-controller="controllerWithInitialization" class="right">
+        <h3>initialization aware</h3>
+        <p ng-show="options.length == 0">loading options...</p>
+        <select ng-show="options.length !== 0"
+        ng-model="selectedOption"
+        ng-options="option.value as option.name for option in options">
+        </select>
+        
+        <div class="log">
+            log:
+            <ul>
+                <li ng-repeat="entry in logentries">{{entry}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,19 +1,27 @@
 'use strict';
 
 angular.module('appControllers', ['ui.bootstrap','appServices'])
-	.controller('LoginCtrl',function ($scope, $location) {
-		$scope.login = function() {
-			$location.path('/users');
+	.controller('SettingCtrl',function ($scope, $location) {
+//		myService.async().then(function(d) {
+//		      $scope.data = d;
+//		    });
+		
+		
+		$scope.postcode = function() {
+			$location.path('/postcodes');
 		};
-		$scope.signup = function() {
+		$scope.save = function(setting) {
 			console.log('called sigup()......');
-			$location.path('/home');
+			//$location.path('/home');
 		}
 	})
-	.controller('UserListCtrl', function($scope, $location, User){
+	.controller('PostCodeCtrl',function($scope, $location){
 		
-		$scope.users = User.query();
-		console.log('controller getting users=%j', $scope.users);
+	});
+//	.controller('UserListCtrl', function($scope, $location, User){
+//		
+//		$scope.users = User.query();
+//		console.log('controller getting users=%j', $scope.users);
 //		$scope.users = [ {
 //			'_id':1001,
 //			'email': 'mary@demo.org',
@@ -91,6 +99,6 @@ angular.module('appControllers', ['ui.bootstrap','appServices'])
 //				}
 //			});
 //		};
-	});
+//	});
 
 

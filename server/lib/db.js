@@ -1,6 +1,6 @@
 var mongojs = require('mongojs')
 	, _und = require('underscore')
-	, db = mongojs('localhost/demodb');
+	, db = mongojs('localhost/demo');
 
 module.exports = {
 	

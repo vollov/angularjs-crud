@@ -25,7 +25,8 @@ app.options('/api/*', function(req,res){
 });
 
 //API
-require('./api/user')(app);
+require('./api/setting')(app);
+require('./api/postcode')(app);
 
 app.listen(3000, '0.0.0.0');
 console.log("Express server listening...");

@@ -1,0 +1,4 @@
+http://stackoverflow.com/questions/19298934/angularjs-initialize-services-before-controller
+http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
+https://coderwall.com/p/rtzymq
+http://blog-it.hypoport.de/2013/10/28/angularjs-ordered-init-async-promise/

@@ -1,0 +1,40 @@
+[1]use localStorage for long term storage
+[2]use sessionStorage for session if, e.g. authentication.
+
+localStorage.removeItem("lastname");
+// Store
+localStorage.setItem("lastname", "Smith");
+localStorage.getItem("lastname");
+// Store
+localStorage.lastname = "Smith";
+localStorage.lastname;
+
+
+
+foodMeApp.factory('customer', function($rootScope) {
+  var LOCAL_STORAGE_ID = 'fmCustomer';
+  var customerString = localStorage[LOCAL_STORAGE_ID];
+
+  var customer = customerString ? JSON.parse(customerString) : {
+    name: undefined,
+    address: undefined
+  };
+
+  $rootScope.$watch(function() { return customer; }, function() {
+    localStorage[LOCAL_STORAGE_ID] = JSON.stringify(customer);
+  }, true);
+
+  return customer;
+});
+
+
+
+$cookies is an Angular module that takes browser cookie functions and wraps them in Angular. Cookies have a smaller storage capacity than localStorage (4k as opposed to 5m) and have the ability to be configured to prompt the visitor for use/acceptance each time you try to use one. This can rapidly detiorate the user experience. Cookies are not recommended for long-term storage of information in a browser for exactly these reasons. Cookies also have a reputation among the technologically illiterate for spreading viruses or somehow otherwise being harmful, neither of which are deserved or completely true.
+
+localStorage (and its companion sessionStorage) are somewhat new to the web with the coming of HTML5 and are very useful. While they can be specifically disabled via settings, most browsers come pre-configured with them turned on and you don't need to worry about it. Unlike cookies, there is no way for the user to be prompted each time the browser wants to use these functions. They are either off or on, and there is no in-between. This makes for a much more seamless experience in your web applications.
+
+localStorage is recommended for storing things in the browser that will persist beyond the current session. To remove things in localStorage you have to explicitly clear them via localStorage.removeItem(itemName).
+
+sessionStorage is recommended for storing things that you do not want to persist beyond the current session. This is because sessionStorage is wiped completely clean when the visitor leaves the domain or closes the browser. This makes it an excellent repository for session-based information such as temporary shopping carts, lists of items to compare, etc.
+
+The caveat here is that both cookies and browser storage can be cleared by the individual user and should not be completely relied upon for storage. Your best bet is always database storage that resides on the server.

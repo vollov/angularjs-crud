@@ -1,6 +1,5 @@
 [1] To import seed data into mongodb:
-$mongo localhost:27017/demodb schema.js
+$mongo localhost:27017/demo schema.js
 
-
-
-
+[2] import postcodes into mongodb
+mongoimport --db demo --collection postcode --headerline --type csv --file postcode.csv

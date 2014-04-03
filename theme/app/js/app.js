@@ -2,15 +2,13 @@
 
 angular.module('appModule', [ 'ngRoute', 'appControllers' ])
 	.config(function($routeProvider) {
-		$routeProvider.when('/login', {
-			controller : 'LoginCtrl',
-			templateUrl : '/views/public/login.html'
-		}).when('/home', {
-			templateUrl : '/views/public/home.html'
-		}).when('/users', {
-			controller : 'UserListCtrl',
-			templateUrl : '/views/user/list.html'
+		$routeProvider.when('/home', {
+			controller : 'SettingCtrl',
+			templateUrl : '/views/public/setting.html'
+		}).when('/postcodes', {
+			controller : 'PostCodeCtrl',
+			templateUrl : '/views/postcode/list.html'
 		}).otherwise({
-			redirectTo : '/login'
+			redirectTo : '/home'
 		});
 	});
