@@ -219,6 +219,7 @@ postcodes=[{postcode:'code_220',city:'city220',province:'ON'},
            {postcode:'code_5',city:'city5',province:'ON'},
            {postcode:'code_4',city:'city4',province:'ON'},
            {postcode:'code_3',city:'city3',province:'ON'},
-           {postcode:'code_2',city:'city2',province:'ON'}]
+           {postcode:'code_2',city:'city2',province:'ON'},
+           {postcode:'code_1',city:'city1',province:'ON'}]
 db.postcode.insert(postcodes);
 db.setting.insert(settings);

@@ -10,6 +10,9 @@ angular.module('appModule', [ 'ngRoute', 'appControllers' ])
 		}).when('/postcodes', {
 			controller : 'PostCodeCtrl',
 			templateUrl : '/views/postcode/list.html'
+		}).when('/postcode/:id', {
+			controller : 'PostCodeEditCtrl',
+			templateUrl : '/views/postcode/detail.html'
 		}).otherwise({
 			redirectTo : '/home'
 		});

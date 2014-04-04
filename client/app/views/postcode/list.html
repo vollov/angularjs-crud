@@ -5,7 +5,9 @@
 	<div class="panel-body">
 
 		<div class="btn-group" >
+			<button type="button" class="btn btn-default" ng-show="currentSegment > 1" ng-click='fetchSegment(currentSegment - 1)'>Previous</button>
 			<button type="button" class="btn btn-default" ng-repeat="page in pageList" ng-click="getPage(page.id)">{{page.label}}</button>
+			<button type="button" class="btn btn-default" ng-show="hasNext" ng-click='fetchSegment(currentSegment + 1)'>Next</button>
 		</div>
 		<div>
 			<table class="table table-condensed table-bordered table-hover table-striped">
@@ -15,14 +17,16 @@
 						<th>postcode</th>
 						<th>city</th>
 						<th>province</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-class-even="'even'" ng-repeat="postcode in postCodesInPage">
-						<td>{{(currentSegment-1)*10 + $index + 1}}</td>
+						<td>{{(currentPage-1)*10 + $index + 1}}</td>
 						<td>{{postcode.postcode}}</a></td>
 						<td>{{postcode.city}}</a></td>
 						<td>{{postcode.province}}</a></td>
+						<td><button type="button" class="btn btn-default" ng-click='edit(postcode._id)'>Edit</button></td>
 					</tr>
 				</tbody>
 			</table>

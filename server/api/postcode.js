@@ -88,11 +88,11 @@ module.exports = function(app) {
 	});
 	
 	/**
-	 * Spec 1.2 get the postcode by object id with GET
+	 * Spec b2.3 get the postcode by object id with GET
 	 */
 	app.get('/api/postcode/:id', function(req, res){
 		var id = req.params.id;
-		console.log('visiting /api/postcode/:id');
+		console.log('visiting GET /api/postcode/:id');
 		db.findOne('postcode', {'_id': mongojs.ObjectId(id)}, {}, function(err, postcode){
 			if (!err) {
 				return res.send(200,postcode);
@@ -107,6 +107,7 @@ module.exports = function(app) {
 	 */
 	app.put('/api/postcode/:id', function(req, res){
 		var id = req.params.id;
+		delete req.body['_id'];
 		db.update('postcode',  {'_id': mongojs.ObjectId(id)}, {$set: req.body},
 			{upsert: false, multi:false}, function(){res.send(200,req.body);
 		});

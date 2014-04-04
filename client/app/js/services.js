@@ -42,12 +42,21 @@ angular.module('appServices', [ ])
 				return $http.get(api_host_url + '/api/postcodes/'+ segment)
 					.success(successCallBack);
 			},
+			get : function(id, successCallBack) {
+				return $http.get(api_host_url + '/api/postcode/'+ id)
+				.success(successCallBack);
+			},
+			total : function(successCallBack){
+				return $http.get(api_host_url + '/api/count/postcode')
+					.success(successCallBack);
+			},
 			save : function(postcode, successCallBack){
 //				return $http.post(api_host_url + '/api/vehicles', vehicle, {params: {'tid': tokenid}})
 //				.success(successCallBack);
 			},
-			update : function(successCallBack){
-				return null;
+			update : function(postcode,successCallBack){
+				return $http.put(api_host_url + '/api/postcode/'+ postcode._id, postcode)
+				.success(successCallBack);
 			},
 			remove : function(id,successCallBack){
 //				return $http.delete(api_host_url + '/api/vehicles/'+vid, {params: {'tid': tokenid}})
@@ -58,21 +67,27 @@ angular.module('appServices', [ ])
 				var page = _.first(postcodes, page_id * pageSize);
 				return _.last(page, pageSize);
 			},
-//			getPageIdList : function(postcodes, pageSize){
-//				return _.range(1, Math.ceil(postcodes/pageSize));
-//				
-//				
-//			},
+			// check if next segment is avaliable.
+			hasNextSegment : function(total_records, postcodes_length, segment, pageSize, pagePerSegment){
+				var fetched_records = (segment - 1) * pageSize * pagePerSegment + postcodes_length;
+				console.log('fetched_records=' + fetched_records);
+				console.log('total=' + total_records);
+				if(total_records > fetched_records){
+					return true;
+				} else {
+					return false;
+				}
+			},
 			getPageList : function(postcodes_length, segment, pageSize, pagePerSegment){
 				console.log('type postcodes=%j, type(pageSize)=%j',typeof postcodes,typeof pageSize);
 				console.log('size='+ Math.ceil(postcodes_length/pageSize));
 				if(segment == 1){
-					return _.map(_.range(1, Math.ceil(postcodes_length/pageSize)),
+					return _.map(_.range(1, Math.ceil(postcodes_length/pageSize) + 1),
 							function(index){
 						return {id:index, label:index};
 					});
 				} else {
-					return _.map(_.range(1, Math.ceil(postcodes_length/pageSize)),
+					return _.map(_.range(1, Math.ceil(postcodes_length/pageSize) + 1),
 							function(index){
 								return {id:index,
 									label:index + (segment - 1) * pagePerSegment};
