@@ -3,12 +3,12 @@
 angular.module('appControllers', [ 'ui.bootstrap','appServices' ])
 	.controller('SettingCtrl',function ($scope, $location, Setting) {
 		
-		var setting = Setting.get();
+		var setting = Setting.getSetting();
 		//console.log('setting =%j',setting);
 		if(setting === null) {
-			Setting.async().then(function() {
+			Setting.query().then(function() {
 				console.log('get data in controller: data');
-				$scope.setting = Setting.get();
+				$scope.setting = Setting.getSetting();
 			});
 		} else {
 			$scope.setting = setting;
@@ -22,45 +22,41 @@ angular.module('appControllers', [ 'ui.bootstrap','appServices' ])
 			Setting.save(setting);
 		}
 	})
-	.controller('PostCodeCtrl',function($scope, $location, Setting, PostCode){
-		$scope.setting = Setting.get();
-		var postcodes = PostCode.getPostCodes();
-		var total = PostCode.getTotal();
+	.controller('PostCodeCtrl',function($scope, $location, PostCode, Setting){
 		
-		var currentPage = 1;
-		
-		// if postcodes is null, load it
-		if(postcodes === null){
-			PostCode.async().then(function() {
-				$scope.postcodes = PostCode.getPostCodes();
+		var setting = Setting.getSetting();
+		//console.log('setting =%j',setting);
+		if(setting === null) {
+			Setting.query().then(function() {
+				console.log('get data in controller: data');
+				$scope.setting = Setting.getSetting();
 			});
-		}else{
-			$scope.postcodes = PostCode.getPostCodes();
+		} else {
+			$scope.setting = setting;
 		}
-		
-		// if total is null, load it
-		if(total === null){
-			PostCode.total().then(function() {
-				$scope.total = PostCode.getTotal();
-			});
-		}else{
-			$scope.total = PostCode.getTotal();
-		}
-		
-		// get default current page
-		
-		
-		console.log('in PostCodeCtrl......');
-		$scope.totalItems = 64;
-		
-		$scope.currentPage = 1;
-		$scope.maxSize = 5;
-		$scope.setPage = function (pageNo) {
-			$scope.currentPage = pageNo;
-		};
 
-		$scope.bigTotalItems = 175;
-		$scope.bigCurrentPage = 1;
+		PostCode.query(1, function(data, status, headers, config) {
+			$scope.postcodeSegment = data;
+			$scope.currentSegment = 1;
+			
+			$scope.postCodesInPage = PostCode.getPage(1, $scope.postcodeSegment, $scope.setting.recordsPerPage);
+			//postcodes, segment, pageSize, pagePerSegment){
+			$scope.pageList = PostCode.getPageList($scope.postcodeSegment.length,1, $scope.setting.recordsPerPage, $scope.setting.pagesPerSegment);
+//			$scope.pages = 
+		});
+		
+		$scope.getPage = function(page_id){
+			//console.log('getPage =' + typeof pageNumber);
+			$scope.postCodesInPage = PostCode.getPage(page_id, $scope.postcodeSegment, $scope.setting.recordsPerPage);
+		};
+		
+		$scope.getSegment = function(segment){
+			PostCode.query(segment, function(data, status, headers, config) {
+				$scope.postcodeSegment = data;
+				$scope.currentSegment = segment;
+
+			});
+		};
 	});
 //	.controller('UserListCtrl', function($scope, User) {
 //		$scope.users = User.query();

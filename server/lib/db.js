@@ -13,10 +13,10 @@ module.exports = {
 	},
 	
 	/**
-	 * quest = {query:{},projection:{},sort:{},limit: 100 }
+	 * quest = {query:{},projection:{},sort:{},limit: 100, skip:2000 }
 	 */
 	find : function(collection, quest, callback) {
-		var query,projection,limit;
+		var query, projection, limit, skip;
 		if(!('query' in quest)){
 			query = {};
 		} else {
@@ -34,12 +34,19 @@ module.exports = {
 			sort = quest['sort'];
 		};
 		
-		if(!('limit' in quest)){
-			db.collection(collection).find(query, projection).sort(sort).toArray(callback);
-		} else {
+		var cursor = db.collection(collection).find(query, projection).sort(sort);
+		if(('limit' in quest)){
 			limit = quest['limit'];
-			db.collection(collection).find(query, projection).sort(sort).limit(limit).toArray(callback);
-		};
+			cursor = cursor.limit(limit);
+		}
+		
+		if(('skip' in quest)){
+			skip = quest['skip'];
+			cursor = cursor.skip(skip);
+		}
+		
+		cursor.toArray(callback);
+		
 		//projection = (typeof projection === "undefined") ? {} : projection;
 		//console.log('find db=> ' + db + ' , coll=> ' + collection);
 	},
@@ -58,6 +65,9 @@ module.exports = {
 		db.collection(collection).update(query, body, options, callback);
 	},
 	
+	count : function(collection, query, callback){
+		db.collection(collection).count(query, callback);
+	},
 	/**
 	 * collection.findAndModify(criteria, sort, update[, options, callback])
 	 * options:

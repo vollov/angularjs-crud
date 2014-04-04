@@ -1,0 +1,95 @@
+<div>
+    <h4>Limit the maximum visible buttons</h4>
+	<pagination total-items="bigTotalItems" page="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+    <pre>Page: {{bigCurrentPage}} / {{numPages}}</pre>
+</div>
+
+<button type="button" class="btn btn-default" ng-show="{{hasNext}}" ng-click='fetchSegment(currentSegment + 1)'>Next</button>
+
+	.controller('PostCodeCtrl',function($scope, $location, PostCode, Setting){
+		$scope.setting = Setting.getSetting();
+		$scope.postcodes = PostCode.getPostCodes();
+		$scope.total = PostCode.getTotal();
+		
+		$scope.currentSegment = parseInt(PostCode.getCurrentSegment());
+		console.log(' current segment=' + $scope.currentSegment);
+		
+		$scope.hasNext = PostCode.hasNextSegment($scope.total, $scope.currentSegment, $scope.postcodes.length);
+		
+		$scope.fetchSegment = function(segment){
+			console.log('called fetchSegment() with segment='+segment);
+			
+			PostCode.query(segment);
+			
+			$scope.postcodes = PostCode.getPostCodes();
+			$scope.total = PostCode.getTotal();
+			$scope.currentSegment = PostCode.getCurrentSegment();
+			$scope.hasNext = PostCode.hasNextSegment($scope.total, $scope.currentSegment, $scope.postcodes.length);
+		}
+	});
+	
+	////////////////////////////////////////////////////////////////////
+	.factory('PostCode', function($http){
+		var service = {}
+
+		// Total number of records, return {total: 4433}
+		service.total = function(){
+			$http.get(api_url_root +'/api/count/postcode').success(function(data){
+				localStorage.postcode_count = data.total;
+			});
+		};
+		
+		// get a segment of post codes
+		service.query = function(segment){
+			$http.get(api_url_root +'/api/postcodes/'+ segment).success(function(data){
+				console.log('setting current segment to '+ segment);
+				localStorage.postcodes = JSON.stringify(data);
+				localStorage.currentSegment = segment;
+			});
+		};
+		
+		service.getPostCodes = function(){
+			if(localStorage.getItem('postcodes') === null){
+				service.query(1);
+			}
+			return JSON.parse(localStorage.postcodes);
+		};
+		
+		service.getCurrentSegment = function(){
+			return localStorage.currentSegment;
+		};
+		
+		service.getTotal = function(){
+			if(localStorage.getItem('postcode_count') === null){
+				service.total();
+			}
+			return localStorage.postcode_count;
+		};
+		
+		service.hasPreviousSegment = function(segment){
+			if(segment > 1){
+				return true;
+			} else {
+				return false;
+			}
+		};
+		
+		service.hasNextSegment = function(total, segment, current_segment_size){
+			
+			var segmentSize = 50;
+			var recordsPulled = 0;
+			
+			if(segment > 1) {
+				recordsPulled = segmentSize * (segment - 1) + current_segment_size;
+			}else{
+				recordsPulled = current_segment_size;
+			}
+			
+			if(recordsPulled < total) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return service;
+	});
